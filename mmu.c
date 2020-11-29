@@ -88,7 +88,7 @@ void allocate_memory(list_t * freelist, list_t * alloclist, int pid, int blocksi
       }
     }
   
-    int blk_end = block_node->blk->end; 
+    int block_end = block_node->blk->end; 
 
     // Set the blk.pid = pid
     block_node->blk->pid = pid;
@@ -99,7 +99,7 @@ void allocate_memory(list_t * freelist, list_t * alloclist, int pid, int blocksi
     list_add_ascending_by_address(alloclist, block_node->blk);
 
     // Deal with the remaining left over memory (fragment). 
-    if (block_node->blk->end != blk_end){
+    if (block_node->blk->end != block_end){
       // Dynamically allocate a new block_t called fragment [use malloc]
       block_t *fragment = (block_t*)malloc(sizeof(block_t));
       
@@ -110,7 +110,7 @@ void allocate_memory(list_t * freelist, list_t * alloclist, int pid, int blocksi
       fragment->start = block_node->blk->end + 1;
       
       // set the fragment->end = original blk.end 
-      fragment->end = blk_end;
+      fragment->end = block_end;
 
       // Add the fragment to the FREE_LIST based on policy. 
       if (policy == 1){
